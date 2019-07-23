@@ -1,18 +1,22 @@
 import React, { useEffect, useRef } from "react"
 
 export const addMarker = links => map => {
-  const infowindow = new window.google.maps.InfoWindow({
-    content: `Cocacola`,
-  })
-
   links.forEach((link, index) => {
+    const infowindow = new window.google.maps.InfoWindow({
+      content: link.node.data.Name,
+    })
+
     const marker = new window.google.maps.Marker({
       map,
-      position: link.coords,
+      position: {
+        lat: link.node.data.lat,
+        lng: link.node.data.lng,
+      },
       label: `${index + 1}`,
-      title: link.title,
-      icon: link.image,
+      title: link.node.data.Name,
+      icon: link.node.data.Attachment[0].url,
     })
+
     console.log(infowindow)
 
     marker.addListener("click", function() {
