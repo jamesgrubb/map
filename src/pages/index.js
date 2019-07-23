@@ -1,6 +1,7 @@
 import React from "react"
 import Map, { addMarker } from "../components/Map/Map"
 import mapStyles from "../utils/mapStyles"
+import { MapNav } from "../components/Map/MapNav"
 import { graphql } from "gatsby"
 
 export default ({ data }) => {
@@ -20,6 +21,18 @@ export default ({ data }) => {
   return (
     <div>
       <Map {...mapProps} />
+      <ul>
+        {data.allAirtable.edges.map(list => {
+          return (
+            <MapNav
+              key={list.node.data.Name}
+              title={list.node.data.Name}
+              logo={list.node.data.Attachment[0].url}
+              alt={list.node.data.Name}
+            />
+          )
+        })}
+      </ul>
     </div>
   )
 }
