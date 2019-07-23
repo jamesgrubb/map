@@ -1,20 +1,11 @@
 import React from "react"
 import Map, { addMarker } from "../components/Map/Map"
 import mapStyles from "../utils/mapStyles"
+import { graphql } from "gatsby"
 
-const links = [
-  {
-    coords: {
-      lat: 51.516,
-      lng: -0.14707,
-    },
-    title: "Marker Title",
-    image:
-      "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-  },
-]
+export default ({ data }) => {
+  console.log(data)
 
-export default () => {
   const mapProps = {
     options: {
       center: { lat: 51.516, lng: -0.14707 },
@@ -24,7 +15,7 @@ export default () => {
       mapTypeControl: false,
       styles: mapStyles,
     },
-    onMount: addMarker(links),
+    onMount: addMarker(data.allAirtable.edges),
   }
   return (
     <div>
@@ -32,3 +23,22 @@ export default () => {
     </div>
   )
 }
+
+export const query = graphql`
+  query HomePageQuery {
+    allAirtable {
+      edges {
+        node {
+          data {
+            lng
+            lat
+            Name
+            Attachment {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+`
